@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+@theme {
+  --animate-word-cycle: word-cycle 10s ease-in-out infinite;
+  /* Toast: bottom slide on mobile, right slide on desktop (sm+). Exit lasts TOAST_EXIT_MS. */
+  --animate-toast-in: toast-in 450ms ease-out both;
+  --animate-toast-in-right: toast-in-right 450ms ease-out both;
+  --animate-toast-out: toast-out 250ms ease-in forwards;
+  --animate-toast-out-right: toast-out-right 250ms ease-in forwards;
+  --animate-toast-progress: toast-progress 4s linear forwards;
+  --animate-pop: pop 400ms 100ms ease-out both;
+  --animate-fade-up: fade-up 300ms ease-out both;
+  --animate-bump: bump 450ms ease-out;
+  --animate-dialog-in: dialog-in 200ms ease-out;
+  --animate-backdrop-in: backdrop-in 200ms ease-out;
+
+  @keyframes dialog-in {
+    from { opacity: 0; transform: translateY(8px) scale(0.95); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @keyframes backdrop-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes toast-in {
+    0% { opacity: 0; transform: translateY(1.5rem) scale(0.95); }
+    60% { opacity: 1; transform: translateY(-4px) scale(1.02); }
+    100% { opacity: 1; transform: none; }
+  }
+
+  @keyframes toast-in-right {
+    0% { opacity: 0; transform: translateX(110%); }
+    60% { opacity: 1; transform: translateX(-8px); }
+    100% { opacity: 1; transform: none; }
+  }
+
+  @keyframes toast-out {
+    to { opacity: 0; transform: translateY(1.5rem) scale(0.95); }
+  }
+
+  @keyframes toast-out-right {
+    to { opacity: 0; transform: translateX(110%); }
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0); }
+    60% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @keyframes draw {
+    to { stroke-dashoffset: 0; }
+  }
+
+  @keyframes toast-progress {
+    from { transform: scaleX(1); }
+    to { transform: scaleX(0); }
+  }
+
+  @keyframes bump {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.3); }
+    60% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+  }
+
+  /* 5 stacked words (the last repeats the first), each 20% of the list height. */
+  @keyframes word-cycle {
+    0%, 20% { transform: translateY(0); }
+    25%, 45% { transform: translateY(-20%); }
+    50%, 70% { transform: translateY(-40%); }
+    75%, 95% { transform: translateY(-60%); }
+    100% { transform: translateY(-80%); }
+  }
+}
+
+@layer base {
+  /* Tailwind v4 defaults borders to currentColor; use a light gray instead. */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+
+  /* Smooth scrolling for in-page anchors (route changes stay instant via data-scroll-behavior). */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+}
+
+@layer components {
+  /* Draws an icon's stroke in, e.g. the toast's check mark. */
+  .check-draw path {
+    stroke-dasharray: 26;
+    stroke-dashoffset: 26;
+    animation: draw 350ms 300ms ease-out forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .check-draw path {
+      stroke-dashoffset: 0;
+      animation: none;
+    }
+  }
+}
