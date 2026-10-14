@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { categories } from "@/lib/categories";
 
-const rotatingWords = ["πούτσες", "μουνάκια", "ντίλντο", "τον μπεκέ"];
+const rotatingWords = ["σφραγίδες", "αυτοκόλλητα", "ταμπελάκια", "βραβεία"];
 const tileTints = ["bg-red-100", "bg-amber-100", "bg-sky-100", "bg-emerald-100", "bg-violet-100"];
 
 export default function Hero() {
